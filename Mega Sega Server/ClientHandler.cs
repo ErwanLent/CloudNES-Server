@@ -1,5 +1,4 @@
-﻿using System.Net.Configuration;
-using Alchemy.Classes;
+﻿using Alchemy.Classes;
 using Mega_Sega_Server.JsonObjects;
 using Mega_Sega_Server.Utility;
 using System;
@@ -15,6 +14,8 @@ namespace Mega_Sega_Server
         public Dictionary<String, TcpClient> Clients = new Dictionary<String, TcpClient>();
 
         public Dictionary<String, UserContext> GameHosts = new Dictionary<String, UserContext>();
+
+        public Dictionary<String, String> Games = new Dictionary<String, String>();
 
         public Dictionary<String, String> PlayerOne = new Dictionary<String, String>();
         public Dictionary<String, String> PlayerTwo = new Dictionary<String, String>();
@@ -74,18 +75,20 @@ namespace Mega_Sega_Server
 
                         if (String.IsNullOrEmpty(user)) return;
 
-                        //if (GameHosts.ContainsKey(user))
-                            //SendMessage(GameHosts[user], message.JsonString);
+                        if (Games.ContainsKey(user))
+                            SendMessage(GameHosts[Games[user]], message.JsonString);
 
                         break;
+
                     case GameHostCommand:
                         user = new JavaScriptSerializer().Deserialize<JsonUser>(message.JsonString).User;
 
                         if (String.IsNullOrEmpty(user)) return;
 
-                        if (GameHosts.ContainsKey(user)) return;
+                        if (Games.ContainsKey(user)) return;
 
-                        //GameHosts.Add(user, message.DictionaryKey);
+                        Games.Add(user, message.DictionaryKey);
+                        SendMessage(GameHosts[Games[user]], "connected from server");
 
                         break;
                 }
@@ -120,6 +123,20 @@ namespace Mega_Sega_Server
                     Clients.Remove(dictionaryKey);
 
                 Console.WriteLine(ex.ToString());
+            }
+        }
+
+        private void SendMessage(UserContext userContext, string message)
+        {
+            try
+            {
+                userContext.Send(message);
+            }
+            catch (Exception)
+            {
+                // Remove client
+                if (GameHosts.ContainsKey(userContext.ClientAddress.ToString()))
+                    GameHosts.Remove(userContext.ClientAddress.ToString());
             }
         }
 

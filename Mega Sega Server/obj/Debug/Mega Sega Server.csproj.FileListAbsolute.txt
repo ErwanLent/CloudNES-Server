@@ -2,7 +2,6 @@ c:\Users\Erwan\Documents\Visual Studio 2013\Projects\Mega Sega Server\Mega Sega 
 c:\Users\Erwan\Documents\Visual Studio 2013\Projects\Mega Sega Server\Mega Sega Server\bin\Debug\Mega Sega Server.exe
 c:\Users\Erwan\Documents\Visual Studio 2013\Projects\Mega Sega Server\Mega Sega Server\bin\Debug\Mega Sega Server.pdb
 c:\Users\Erwan\Documents\Visual Studio 2013\Projects\Mega Sega Server\Mega Sega Server\bin\Debug\Alchemy.dll
-c:\Users\Erwan\Documents\Visual Studio 2013\Projects\Mega Sega Server\Mega Sega Server\bin\Debug\Newtonsoft.Json.dll
 c:\Users\Erwan\Documents\Visual Studio 2013\Projects\Mega Sega Server\Mega Sega Server\obj\Debug\Mega Sega Server.csprojResolveAssemblyReference.cache
 c:\Users\Erwan\Documents\Visual Studio 2013\Projects\Mega Sega Server\Mega Sega Server\obj\Debug\Mega Sega Server.exe
 c:\Users\Erwan\Documents\Visual Studio 2013\Projects\Mega Sega Server\Mega Sega Server\obj\Debug\Mega Sega Server.pdb

@@ -121,10 +121,10 @@ namespace Mega_Sega_Server
 
         private void OnConnect(UserContext context)
         {
-            if (ClientHandler.GameHosts.ContainsKey(context.ClientAddress.ToString()))
-                ClientHandler.GameHosts.Remove(context.ClientAddress.ToString());
+            Console.WriteLine("Web socket connected.");
 
-            ClientHandler.GameHosts.Add(context.ClientAddress.ToString(), context);
+            if (!ClientHandler.GameHosts.ContainsKey(context.ClientAddress.ToString()))
+                ClientHandler.GameHosts.Add(context.ClientAddress.ToString(), context);
         }
 
         private void OnDisconnect(UserContext context)

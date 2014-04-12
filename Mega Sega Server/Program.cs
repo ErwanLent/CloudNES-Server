@@ -28,8 +28,11 @@ namespace Mega_Sega_Server
                     case "two":
                         Console.WriteLine(server.ClientHandler.PlayerTwo.Count);
                         break;
-                    case "game":
+                    case "hosts":
                         Console.WriteLine(server.ClientHandler.GameHosts.Count);
+                        break;
+                    case "games":
+                        Console.WriteLine(server.ClientHandler.Games.Count);
                         break;
                     case "quit":
                         server = null;
