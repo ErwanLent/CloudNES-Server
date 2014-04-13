@@ -1,5 +1,4 @@
-﻿using Alchemy;
-using Alchemy.Classes;
+﻿using Alchemy.Classes;
 using System;
 using System.Linq;
 using System.Net;
@@ -173,12 +172,6 @@ namespace Mega_Sega_Server
             _server.Start();
 
             Console.WriteLine("Web Sockets server started.");
-        }
-
-        private void RestartSocketServer()
-        {
-            _server.Stop();
-            _server.Start();
         }
     }
 }

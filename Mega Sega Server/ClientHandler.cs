@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Alchemy.Classes;
+﻿using Alchemy.Classes;
 using Mega_Sega_Server.JsonObjects;
 using Mega_Sega_Server.Utility;
 using System;
@@ -44,27 +43,29 @@ namespace Mega_Sega_Server
 
                         if (String.IsNullOrEmpty(user)) return;
 
-                        if (!PlayerOne.ContainsKey(message.DictionaryKey))
+                        if (!PlayerOne.ContainsKey(user))
                         {
-                            PlayerOne.Add(message.DictionaryKey, user);
+                            PlayerOne.Add(user, message.DictionaryKey);
                             Dictionary<String, String> playerNumberDictionary = new Dictionary<String, String>
                             {
                                 {
                                     "playerNumber", "1"
                                 }
                             };
+
                             SendMessage(message.DictionaryKey, playerNumberDictionary.ToJson());
                             Console.WriteLine("Player One Added: " + user);
                         }
-                        else if (!PlayerTwo.ContainsKey(message.DictionaryKey))
+                        else if (!PlayerTwo.ContainsKey(user))
                         {
-                            PlayerTwo.Add(message.DictionaryKey, user);
+                            PlayerTwo.Add(user, message.DictionaryKey);
                             Dictionary<String, String> playerNumberDictionary = new Dictionary<String, String>
                             {
                                 {
                                     "playerNumber", "2"
                                 }
                             };
+
                             SendMessage(message.DictionaryKey, playerNumberDictionary.ToJson());
                             Console.WriteLine("Player Two Added: " + user);
                         }
@@ -86,7 +87,7 @@ namespace Mega_Sega_Server
 
                         if (String.IsNullOrEmpty(user)) return;
 
-                        if (Games.ContainsKey(user) || 
+                        if (Games.ContainsKey(user) ||
                             !GameHosts.ContainsKey(message.DictionaryKey)) return;
 
                         Games.Add(user, message.DictionaryKey);
