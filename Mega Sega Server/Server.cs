@@ -1,4 +1,5 @@
-﻿using Alchemy.Classes;
+﻿using Alchemy;
+using Alchemy.Classes;
 using System;
 using System.Linq;
 using System.Net;
@@ -17,6 +18,8 @@ namespace Mega_Sega_Server
         private const int MessageSize = 10480;
 
         private readonly TcpListener _tcpListener;
+
+        private Alchemy.WebSocketServer _server;
 
         public Server()
         {
@@ -121,7 +124,7 @@ namespace Mega_Sega_Server
 
         private void OnConnect(UserContext context)
         {
-            Console.WriteLine("Web socket connected.");
+            Console.WriteLine("Connected.");
 
             if (!ClientHandler.GameHosts.ContainsKey(context.ClientAddress.ToString()))
                 ClientHandler.GameHosts.Add(context.ClientAddress.ToString(), context);
@@ -129,8 +132,27 @@ namespace Mega_Sega_Server
 
         private void OnDisconnect(UserContext context)
         {
-            if (ClientHandler.GameHosts.ContainsKey(context.ClientAddress.ToString()))
-                ClientHandler.GameHosts.Remove(context.ClientAddress.ToString());
+            Console.WriteLine("Disconnect.");
+
+            string dictionaryKey = context.ClientAddress.ToString();
+
+            if (ClientHandler.Games.Values.Contains(dictionaryKey))
+            {
+                string key = ClientHandler.Games.First(pair => pair.Value.Equals(dictionaryKey)).Key;
+
+                if (!String.IsNullOrEmpty(key) && ClientHandler.Games.ContainsKey(key))
+                {
+                    ClientHandler.Games.Remove(key);
+                }
+            }
+
+            if (ClientHandler.GameHosts.ContainsKey(dictionaryKey))
+            {
+                ClientHandler.GameHosts.Remove(dictionaryKey);
+            }
+
+            _server.Stop();
+            _server.Dispose();
         }
 
         private void OnReceive(UserContext context)
@@ -140,16 +162,23 @@ namespace Mega_Sega_Server
 
         private void StartGameHostServer()
         {
-            Alchemy.WebSocketServer server = new Alchemy.WebSocketServer(8089, IPAddress.Any)
+            _server = new Alchemy.WebSocketServer(8089, IPAddress.Any)
             {
                 OnReceive = OnReceive,
                 OnConnected = OnConnect,
-                OnDisconnect = OnDisconnect
+                OnDisconnect = OnDisconnect,
+                TimeOut = new TimeSpan(1, 0, 0, 0)
             };
 
-            server.Start();
+            _server.Start();
 
             Console.WriteLine("Web Sockets server started.");
+        }
+
+        private void RestartSocketServer()
+        {
+            _server.Stop();
+            _server.Start();
         }
     }
 }

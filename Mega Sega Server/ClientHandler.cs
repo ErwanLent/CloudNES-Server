@@ -1,4 +1,5 @@
-﻿using Alchemy.Classes;
+﻿using System.Linq;
+using Alchemy.Classes;
 using Mega_Sega_Server.JsonObjects;
 using Mega_Sega_Server.Utility;
 using System;
@@ -75,7 +76,7 @@ namespace Mega_Sega_Server
 
                         if (String.IsNullOrEmpty(user)) return;
 
-                        if (Games.ContainsKey(user))
+                        if (Games.ContainsKey(user) && GameHosts.ContainsKey(Games[user]))
                             SendMessage(GameHosts[Games[user]], message.JsonString);
 
                         break;
@@ -85,15 +86,13 @@ namespace Mega_Sega_Server
 
                         if (String.IsNullOrEmpty(user)) return;
 
-                        if (Games.ContainsKey(user)) return;
+                        if (Games.ContainsKey(user) || 
+                            !GameHosts.ContainsKey(message.DictionaryKey)) return;
 
                         Games.Add(user, message.DictionaryKey);
-                        SendMessage(GameHosts[Games[user]], "connected from server");
 
                         break;
                 }
-
-                SendMessageToAll("yolo");
             }
             catch (Exception exception)
             {
@@ -135,28 +134,8 @@ namespace Mega_Sega_Server
             catch (Exception)
             {
                 // Remove client
-                if (GameHosts.ContainsKey(userContext.ClientAddress.ToString()))
-                    GameHosts.Remove(userContext.ClientAddress.ToString());
-            }
-        }
-
-        private void SendMessageToAll(string message)
-        {
-            foreach (TcpClient client in Clients.Values)
-            {
-                try
-                {
-                    NetworkStream clientStream = client.GetStream();
-                    ASCIIEncoding encoder = new ASCIIEncoding();
-                    byte[] buffer = encoder.GetBytes(message);
-
-                    clientStream.Write(buffer, 0, buffer.Length);
-                    clientStream.Flush();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
+                //if (GameHosts.ContainsKey(userContext.ClientAddress.ToString()))
+                //    GameHosts.Remove(userContext.ClientAddress.ToString());
             }
         }
     }
