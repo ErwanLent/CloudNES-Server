@@ -7,6 +7,9 @@ using System.Threading;
 
 namespace Mega_Sega_Server
 {
+    /*
+        This class was used for experimenation and is not part of the final release.
+    */
     public class WebSocketServer
     {
         private const string Guid = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
