@@ -1,7 +1,7 @@
 Cloud NES - Server Logic
 ===============
 
-####*This project was made in 36 hours at LA Hacks hackathon. This repository is for the tcp server-sided logic only.* 
+####*This project was made in 36 hours at LA Hacks hackathon. This repository is the tcp server-sided logic only.* 
 
 For the iOS app repository, please visit: https://github.com/joelgreen/MegaSegaController
 
